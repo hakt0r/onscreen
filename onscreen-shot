@@ -1,0 +1,10 @@
+#!/bin/sh
+test -z "$DISPLAY" && DISPLAY=:0
+config="$HOME/.onscreen"
+host=$(test -n "$1" && echo "$1" || { test -f $config && cat $config 2>/dev/null; })
+tmp=$(mktemp -d)
+fn=tmp.jpg
+cd $tmp
+avconv -f x11grab -s 1024x600 -r 1 -t 00:00:00.01 -i :0.0 $fn
+scp $fn $host:~/.tmp.jpg
+ssh $host "killall eog; DISPLAY=:0 eog -f ~/.tmp.jpg"

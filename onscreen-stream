@@ -1,0 +1,8 @@
+#!/bin/sh
+test -z "$DISPLAY" && DISPLAY=:0
+config="$HOME/.onscreen"
+host=$(test -n "$1" && echo "$1" || { test -f $config && cat $config 2>/dev/null; })
+res=$(LANG=C xrandr | grep connect | head -n 1 | grep -o '[0-9]\+x[0-9]\+')
+avconv -f x11grab -r 15 -s "$res" -i :0.0 -s 640x480 -vcodec mpeg4 \
+  -fflags "nobuffer" \
+  -f mpegts - | ssh "$host" 'DISPLAY=:0 avplay -fs -'
