@@ -4,7 +4,7 @@
 ```
 sudo sh -c 'for m in shot stream; do
   p=/usr/bin/onscreen-$i;
-  wget -O $p https://raw.github.com/hakt0r/onscreen/onscreen-$i;
+  wget -O $p https://raw.github.com/hakt0r/onscreen/master/onscreen-$i;
   chmod a+x $p;
   done'
 ```
